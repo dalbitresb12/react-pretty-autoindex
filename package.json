@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9",
     "craco": "^0.0.3",
+    "eslint": "^7.15.0",
+    "eslint-plugin-react": "^7.21.5",
     "postcss": "^7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
