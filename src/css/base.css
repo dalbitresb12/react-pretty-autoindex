@@ -1,0 +1,20 @@
+@import url('https://rsms.me/inter/inter.css');
+
+@tailwind base;
+
+/* Boilerplate */
+
+html {
+  font-feature-settings: 'liga' 1;
+
+  @apply antialiased font-inter leading-tight h-full;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    @apply font-inter-var;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;

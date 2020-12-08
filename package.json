@@ -10,9 +10,11 @@
     "craco": "^0.0.3",
     "eslint": "^7.15.0",
     "eslint-plugin-react": "^7.21.5",
+    "lodash": "^4.17.20",
     "postcss": "^7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
@@ -42,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prop-types": "^15.7.2"
   }
 }

@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Breadcrumb from './components/Breadcrumb';
+import FileList from './components/FileList';
+import { get } from 'lodash';
+import defaultConfig from './defaultConfig';
 
-function App() {
+const App = () => {
+  const basePath = get(globalThis, "config.basePath", defaultConfig.basePath);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router basename={basePath}>
+      <div className="my-4 mx-4 lg:max-w-4xl lg:mx-auto">
+        <Breadcrumb className="my-4" />
+        <FileList />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
