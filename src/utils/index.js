@@ -1,13 +1,13 @@
-import getParentLocation from './getParentLocation';
 import getDirectoryContents from './getDirectoryContents';
-import getFilePath from './getFilePath';
-import removeTrailingSlash from './removeTrailingSlash';
 import getDirectoryPath from './getDirectoryPath';
+import getFilePath from './getFilePath';
+import getParentLocation from './getParentLocation';
+import removeTrailingSlash from './removeTrailingSlash';
 
 export {
-  getParentLocation,
   getDirectoryContents,
+  getDirectoryPath,
   getFilePath,
-  removeTrailingSlash,
-  getDirectoryPath
+  getParentLocation,
+  removeTrailingSlash
 };

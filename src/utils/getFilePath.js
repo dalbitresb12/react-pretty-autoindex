@@ -1,15 +1,12 @@
 import { get } from 'lodash';
 import defaultConfig from '../defaultConfig';
-import removeTrailingSlash from './removeTrailingSlash';
+import path from 'path';
 
 const getFilePath = (location, fileName) => {
-  let address = get(globalThis, "config.address", defaultConfig.address);
-  address = removeTrailingSlash(address);
-
-  let baseDir = location.pathname;
-  baseDir = removeTrailingSlash(baseDir);
-
-  return `${address}${baseDir}/${fileName}`;
+  const address = get(globalThis, "config.address", defaultConfig.address);
+  const currentDir = location.pathname;
+  const url = address + path.join(currentDir, fileName);
+  return url;
 };
 
 export default getFilePath;

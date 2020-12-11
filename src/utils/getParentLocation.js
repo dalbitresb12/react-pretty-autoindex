@@ -1,9 +1,7 @@
-import removeTrailingSlash from "./removeTrailingSlash";
+import path from 'path';
 
 const getParentLocation = location => {
-  const pathname = removeTrailingSlash(location.pathname).split("/");
-  pathname.pop();
-  return pathname.join("/");
+  return path.join(location.pathname, "..");
 };
 
 export default getParentLocation;

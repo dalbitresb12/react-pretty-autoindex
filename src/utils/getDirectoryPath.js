@@ -1,12 +1,8 @@
-import removeTrailingSlash from './removeTrailingSlash';
+import path from 'path';
 
 const getDirectoryPath = (location, directory) => {
-  let currentDir = location.pathname;
-  currentDir = removeTrailingSlash(currentDir);
-
-  directory = removeTrailingSlash(directory);
-
-  return `${currentDir}/${directory}/`;
+  const currentDir = location.pathname;
+  return path.join(currentDir, directory, "/");
 };
 
 export default getDirectoryPath;
