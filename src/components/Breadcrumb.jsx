@@ -1,37 +1,47 @@
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { get } from 'lodash';
 import defaultConfig from '../defaultConfig';
+import clsx from 'clsx';
+import { removeTrailingSlash } from '../utils';
 
-const Item = ({ label, path, className }) => (
-  <>
-    <span className={className ? className : undefined}>
-      <Link to={path}>{label}</Link>
-    </span>
-    <span>/</span>
-  </>
-);
+const Item = ({ label, path, root }) => {
+  const labelClassName = clsx({ "font-bold": root });
+  const activeClassName = clsx(!root && ["text-gray-800", "font-medium"]);
+
+  return (
+    <>
+      <span className={labelClassName}>
+        <NavLink to={path} className="hover:text-light-blue-600 hover:underline" activeClassName={activeClassName} exact>
+          {label}
+        </NavLink>
+      </span>
+      <span className="text-gray-800 font-light">/</span>
+    </>
+  );
+};
 
 Item.propTypes = {
   label: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  root: PropTypes.bool,
 };
 
 const Breadcrumb = ({ className }) => {
-  const route = useLocation().pathname.substring(1);
-  const root = get(globalThis, "config.name", defaultConfig.name);
-  const items = [root, ...(route.length > 0 ? route.split("/") : [])];
+  const route = removeTrailingSlash(useLocation().pathname.substring(1));
+  const title = get(globalThis, "config.name", defaultConfig.name);
+  const items = route.length > 0 ? route.split("/") : [];
+
+  const containerClassName = clsx(className && className, "text-light-blue-600", "text-lg", "m-2", "space-x-2");
 
   return (
-    <div className={(className ? `${className} text-blue-500` : `text-blue-500`) + ' text-lg m-2 space-x-4'}>
+    <div className={containerClassName}>
+      <Item label={title} path="/" root />
       {items.map((value, index) => {
-        const path = index !== 0
-          ? "/" + items.slice(1, index + 1).join("/")
-          : "/";
+        const path = "/" + items.slice(0, index + 1).join("/");
 
         return (
-          <Item key={index} label={value} path={path} className={index === 0 ? 'font-bold' : undefined} />
+          <Item key={index} label={value} path={path} />
         );
       })}
     </div>
