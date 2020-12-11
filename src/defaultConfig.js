@@ -1,7 +1,8 @@
 const defaultConfig = {
   name: 'react-pretty-autoindex',
-  basePath: '/',
-  address: 'http://example.com/directory',
+  basePath: '/', // base path for react-router
+  address: 'http://example.com/directory', // no trailing slash
+  withCredentials: false, // include credentials in fetch
   visibilityOptions: {
     size: {
       use: true,

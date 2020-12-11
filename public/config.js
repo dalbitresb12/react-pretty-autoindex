@@ -1,7 +1,8 @@
 globalThis.config = {
   name: 'Programming Books',
-  basePath: '/programming-books',
-  address: 'https://static.dalbitresb.me/programming-books',
+  basePath: '/programming-books', // base path for react-router
+  address: 'https://static.dev.local/programming-books', // no trailing slash
+  withCredentials: true, // include credentials in fetch
   visibilityOptions: {
     size: {
       use: true,
