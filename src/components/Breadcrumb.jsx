@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
 import { get } from 'lodash';
-import defaultConfig from '../defaultConfig';
 import clsx from 'clsx';
+import path from 'path';
+import defaultConfig from '../defaultConfig';
 import { removeTrailingSlash } from '../utils';
 
 const Item = ({ label, path, root }) => {
-  const labelClassName = clsx({ "font-bold": root });
+  const labelClassName = clsx(root && "font-bold");
   const activeClassName = clsx(!root && ["text-gray-800", "font-medium"]);
 
   return (
@@ -28,9 +29,11 @@ Item.propTypes = {
 };
 
 const Breadcrumb = ({ className }) => {
-  const route = removeTrailingSlash(useLocation().pathname.substring(1));
-  const title = get(globalThis, "config.name", defaultConfig.name);
+  const location = useLocation();
+  const route = removeTrailingSlash(location.pathname.substring(1));
   const items = route.length > 0 ? route.split("/") : [];
+
+  const title = get(globalThis, "config.name", defaultConfig.name);
 
   const containerClassName = clsx(className && className, "text-light-blue-600", "text-lg", "m-2", "space-x-2");
 
@@ -38,10 +41,10 @@ const Breadcrumb = ({ className }) => {
     <div className={containerClassName}>
       <Item label={title} path="/" root />
       {items.map((value, index) => {
-        const path = "/" + items.slice(0, index + 1).join("/");
+        const pathname = path.join("/", items.slice(0, index + 1).join("/"), "/");
 
         return (
-          <Item key={index} label={value} path={path} />
+          <Item key={index} label={value} path={pathname} />
         );
       })}
     </div>
