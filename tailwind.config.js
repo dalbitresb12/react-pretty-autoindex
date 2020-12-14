@@ -1,7 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  purge: ['./src/**/*.js', './public/index.html'],
+  purge: ['./src/**/*.js', './src/**/*.jsx', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
@@ -19,6 +19,7 @@ module.exports = {
   variants: {
     extend: {
       borderWidth: ['first', 'last'],
+      borderRadius: ['first', 'last'],
     },
   },
   plugins: [],
