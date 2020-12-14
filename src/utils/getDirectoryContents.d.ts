@@ -1,6 +1,6 @@
 interface FileMetadata {
   name: string,
-  type: "file" | "directory",
+  type: "file" | "directory" | "other",
   mtime: string,
   size?: number
 }
