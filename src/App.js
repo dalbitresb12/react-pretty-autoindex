@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
+import { get } from 'lodash';
 import Breadcrumb from './components/Breadcrumb';
 import FileList from './components/FileList';
-import { get } from 'lodash';
 import defaultConfig from './defaultConfig';
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
 
   return (
     <Router basename={basePath}>
-      <div className="my-4 mx-4 lg:max-w-4xl lg:mx-auto">
+      <div className="my-4 mx-4 lg:max-w-5xl lg:mx-auto text-xs lg:text-sm">
         <Breadcrumb className="my-4" />
         <FileList />
       </div>
