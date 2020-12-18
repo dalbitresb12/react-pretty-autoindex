@@ -13,7 +13,12 @@ const Item = ({ label, path, root }) => {
   return (
     <>
       <span className={labelClassName}>
-        <NavLink to={path} className="hover:text-light-blue-600 hover:underline" activeClassName={activeClassName} exact>
+        <NavLink
+          to={path}
+          className="hover:text-light-blue-600 hover:underline"
+          activeClassName={activeClassName}
+          exact
+        >
           {label}
         </NavLink>
       </span>
@@ -28,17 +33,25 @@ Item.propTypes = {
   root: PropTypes.bool,
 };
 
-const Breadcrumb = ({ className }) => {
+const Breadcrumb = (props) => {
   const location = useLocation();
   const route = removeTrailingSlash(location.pathname.substring(1));
   const items = route.length > 0 ? route.split("/") : [];
 
   const title = get(globalThis, "config.name", defaultConfig.name);
 
-  const containerClassName = clsx(className && className, "text-light-blue-600", "text-lg", "m-2", "space-x-2");
+  const containerClassName = clsx(
+    props.className && props.className, 
+    "text-light-blue-600 m-2 space-x-2 text-sm md:text-lg"
+  );
+
+  props = {
+    ...props,
+    className: containerClassName
+  };
 
   return (
-    <div className={containerClassName}>
+    <div {...props}>
       <Item label={title} path="/" root />
       {items.map((value, index) => {
         const pathname = path.join("/", items.slice(0, index + 1).join("/"), "/");
