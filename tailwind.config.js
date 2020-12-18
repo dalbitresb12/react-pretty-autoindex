@@ -1,5 +1,8 @@
 const colors = require("tailwindcss/colors");
 
+const beforeAfterVariants = require("./plugins/variants/before-after");
+const contentUtilities = require("./plugins/utilities/content");
+
 module.exports = {
   purge: ['./src/**/*.js', './src/**/*.jsx', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
@@ -18,9 +21,14 @@ module.exports = {
   },
   variants: {
     extend: {
+      display: ['first', 'last', 'before', 'after'],
       borderWidth: ['first', 'last'],
       borderRadius: ['first', 'last'],
+      contentSeparator: ['first', 'last'],
     },
   },
-  plugins: [],
+  plugins: [
+    beforeAfterVariants,
+    contentUtilities
+  ],
 };
