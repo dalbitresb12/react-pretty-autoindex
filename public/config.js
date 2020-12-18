@@ -6,16 +6,21 @@ const config = {
   visibilityOptions: {
     size: {
       use: true,
+      tooltip: true, // always false if type is set to both
       type: 'readable' // raw, readable, both
     },
     date: {
       use: true,
+      tooltip: true, // always false if type is set to both
       type: 'readable' // raw, readable, both
     }
   }
 };
 
 Object.freeze(config);
+Object.freeze(config.visibilityOptions);
+Object.freeze(config.visibilityOptions.size);
+Object.freeze(config.visibilityOptions.date);
 
 // Un-comment the following line to use this config instead of the default config
 // globalThis.config = config;
