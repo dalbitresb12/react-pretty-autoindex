@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { get } from 'lodash';
-import { getDirectoryContents } from '../utils';
 import prettyBytes from 'pretty-bytes';
 import { DateTime } from 'luxon';
+import clsx from 'clsx';
+import useAutoindex from '../hooks/useAutoindex';
 import FileItem from './FileItem';
 import DirectoryItem from './DirectoryItem';
 import MetaItem from './MetaItem';
@@ -12,35 +13,24 @@ import defaultConfig from '../defaultConfig';
 
 const FileList = (props) => {
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const { response: data, loading, error } = useAutoindex(location.pathname);
   const [modalData, setModalData] = useState({});
   const [modalVisibility, setModalVisibility] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-
-    getDirectoryContents(location.pathname)
-      .then(res => {
-        setData(res);
-        setLoading(false);
-      });
-  }, [location.pathname]);
-
-  if (loading) {
-    return (
-      <div>
-        <span>Loading...</span>
-      </div>
-    );
-  }
 
   const size = get(globalThis, "config.visibilityOptions.size", defaultConfig.visibilityOptions.size);
   const date = get(globalThis, "config.visibilityOptions.date", defaultConfig.visibilityOptions.date);
 
+  const tableClassNames = clsx(
+    "border border-solid border-gray-300 divide-y divide-gray-200 rounded",
+    {
+      "block": !loading && !error,
+      "hidden": loading || error,
+    }
+  );
+
   return (
     <div {...props}>
-      <ul className="border border-solid border-gray-300 divide-y divide-gray-200 rounded">
+      <ul className={tableClassNames}>
         {data.map((file, index) => {
           const isFile = get(file, "type") === "file";
           const fileName = get(file, "name");
