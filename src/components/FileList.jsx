@@ -9,6 +9,7 @@ import FileItem from './FileItem';
 import DirectoryItem from './DirectoryItem';
 import MetaItem from './MetaItem';
 import MetaModal from './MetaModal';
+import Loading from './Loading';
 import defaultConfig from '../defaultConfig';
 
 const FileList = (props) => {
@@ -30,6 +31,7 @@ const FileList = (props) => {
 
   return (
     <div {...props}>
+      <Loading loading={loading} error={error} />
       <ul className={tableClassNames}>
         {data.map((file, index) => {
           const isFile = get(file, "type") === "file";
