@@ -7,12 +7,15 @@ import { DateTime } from 'luxon';
 import FileItem from './FileItem';
 import DirectoryItem from './DirectoryItem';
 import MetaItem from './MetaItem';
+import MetaModal from './MetaModal';
 import defaultConfig from '../defaultConfig';
 
 const FileList = (props) => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [modalData, setModalData] = useState({});
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -95,11 +98,15 @@ const FileList = (props) => {
                     {humanDate}
                   </MetaItem>
                 </div>
+                <span className="inline sm:hidden">
+
+                </span>
               </div>
             </li>
           );
         })}
       </ul>
+      <MetaModal visibility={modalVisibility} handleClose={() => setModalVisibility(false)} />
     </div>
   );
 };
