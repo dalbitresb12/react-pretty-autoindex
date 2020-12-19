@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# React Pretty Autoindex
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Shows the nginx autoindex more pretty.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+First, download the latest release from [GitHub Releases](https://github.com/dalbitresb12/react-pretty-autoindex/releases/latest) to your server.
 
-### `yarn start`
+Before using it, you need to set some nginx configurations. (In this example, the hostname used is `example.com`, so you should replace it as necessary).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```nginx
+# This generates the API for react-pretty-autoindex to access.
+server {
+  listen 80;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  server_name files.example.com;
+  root /path/to/folder/to/index;
+  
+  # Set this to something random so that no index is ever matched.
+  # You can get something random using this command on a Linux machine:
+  # openssl rand -base64 12
+  index CPBCTVOyUs1O6kDvAkhKWN3d;
 
-### `yarn test`
+  location / {
+    autoindex on;
+    autoindex_format json;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    # Enable CORS requests from main domain
+    add_header  Access-Control-Allow-Origin "example.com";
+    add_header  Access-Control-Allow-Methods "GET, HEAD, OPTIONS";
+    add_header  Access-Control-Allow-Headers "Origin, Authorization, Accept";
+    add_header  Access-Control-Allow-Credentials true;
+  }
+}
 
-### `yarn build`
+# This is the actual server for serving react-pretty-autoindex.
+server {
+  listen 80;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  server_name example.com;
+  root /path/to/react-pretty-autoindex/build/;
+  index index.html;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  location / {
+    try_files $uri $uri/ /index.html =404;
+  }
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Then, set the options in the `config.js` and un-comment the last line so that the changes are applied.
 
-### `yarn eject`
+```javascript
+const config = {
+  name: 'react-pretty-autoindex',
+  basePath: '/', // base path for react-router
+  address: 'http://files.example.com', // no trailing slash
+  withCredentials: false, // include credentials in fetch
+  visibilityOptions: {
+    size: {
+      use: true,
+      tooltip: true, // always false if type is set to both
+      type: 'readable' // raw, readable, both
+    },
+    date: {
+      use: true,
+      tooltip: true, // always false if type is set to both
+      type: 'readable' // raw, readable, both
+    }
+  }
+};
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Object.freeze(config);
+Object.freeze(config.visibilityOptions);
+Object.freeze(config.visibilityOptions.size);
+Object.freeze(config.visibilityOptions.date);
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+// Un-comment the following line to use this config instead of the default config
+globalThis.config = config;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Finally, restart nginx and access `example.com`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**CAUTION!** If you intend to open your page in public network, beware your nginx configuration and exclude files that you wouldn't like to expose from the directory.
 
-## Learn More
+## Configuration Examples
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+TODO
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Development
 
-### Code Splitting
+To build react-pretty-autoindex:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Install [Node.js](https://nodejs.org) and [Yarn 1](https://classic.yarnpkg.com/).
 
-### Analyzing the Bundle Size
+2. Install all the dependencies: `yarn` or `yarn install`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. Run the build command: `yarn build`.
 
-### Making a Progressive Web App
+To start the development server, just run `yarn start` and then open [`localhost:3000`](localhost:3000).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+This repository is licensed under the [MIT license](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Author
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Diego Albitres](https://github.com/dalbitresb12/)
