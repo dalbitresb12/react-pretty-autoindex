@@ -42,7 +42,8 @@ const Breadcrumb = (props) => {
 
   const containerClassName = clsx(
     props.className && props.className, 
-    "text-light-blue-600 m-2 space-x-2 text-sm md:text-lg"
+    "text-light-blue-600 space-x-2 text-sm md:text-lg",
+    "overflow-x-auto whitespace-nowrap pretty-scrollbar"
   );
 
   props = {
