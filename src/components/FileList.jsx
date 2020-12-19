@@ -19,7 +19,7 @@ const FileList = (props) => {
     "border border-solid border-gray-300 divide-y divide-gray-200 rounded",
     {
       "block": !loading && !error,
-      "hidden": loading || error,
+      "hidden": loading || error || (location.pathname === "/" && data.length === 0),
     }
   );
 
