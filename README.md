@@ -1,4 +1,4 @@
-# React Pretty Autoindex
+# react-pretty-autoindex
 
 Shows the nginx autoindex more pretty.
 
