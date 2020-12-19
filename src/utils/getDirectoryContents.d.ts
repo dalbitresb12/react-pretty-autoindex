@@ -1,9 +1,4 @@
-interface FileMetadata {
-  name: string,
-  type: "file" | "directory" | "other",
-  mtime: string,
-  size?: number
-}
+import { FileMetadata } from '../types';
 
 declare function getDirectoryContents(path: string): Promise<FileMetadata[]>;
 
