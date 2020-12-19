@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
-import { NavLink, useLocation } from 'react-router-dom';
-import { get } from 'lodash';
 import clsx from 'clsx';
 import path from 'path';
-import defaultConfig from '../defaultConfig';
-import { removeTrailingSlash } from '../utils';
+import { NavLink, useLocation } from 'react-router-dom';
+import { getConfigKey, removeTrailingSlash } from '../utils';
+import PropTypes from 'prop-types';
 
 const Item = ({ label, path, root }) => {
   const labelClassName = clsx(root && "font-bold");
@@ -38,7 +36,7 @@ const Breadcrumb = (props) => {
   const route = removeTrailingSlash(location.pathname.substring(1));
   const items = route.length > 0 ? route.split("/") : [];
 
-  const title = get(globalThis, "config.name", defaultConfig.name);
+  const title = getConfigKey("name");
 
   const containerClassName = clsx(
     props.className && props.className, 

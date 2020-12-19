@@ -1,11 +1,10 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { get } from 'lodash';
+import { getConfigKey } from './utils';
 import Breadcrumb from './components/Breadcrumb';
 import FileList from './components/FileList';
-import defaultConfig from './defaultConfig';
 
 const App = () => {
-  const basePath = get(globalThis, "config.basePath", defaultConfig.basePath);
+  const basePath = getConfigKey("basePath");
 
   return (
     <Router basename={basePath}>

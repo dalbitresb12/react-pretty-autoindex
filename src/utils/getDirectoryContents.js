@@ -1,9 +1,8 @@
-import { get } from 'lodash';
-import defaultConfig from '../defaultConfig';
+import getConfigKey from './getConfigKey';
 
 const getDirectoryContents = async path => {
-  const address = get(globalThis, "config.address", defaultConfig.address);
-  const withCredentials = get(globalThis, "config.withCredentials", defaultConfig.withCredentials);
+  const address = getConfigKey("address");
+  const withCredentials = getConfigKey("withCredentials");
 
   const response = await fetch(`${address}${path}`, {
     method: "GET",
