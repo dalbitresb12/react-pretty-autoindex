@@ -9,31 +9,40 @@ import ListItem from './ListItem';
 import MetaModal from './MetaModal';
 import path from 'path';
 
+/**
+ * @summary Type definitions
+ * 
+ * @typedef {import('../types').FileMetadata} FileMetadata
+ * @typedef {import('../types').SizeDate} SizeDate 
+ */
+
 const FileList = (props) => {
   const location = useLocation();
-  const { response: data, loading, error } = useAutoindex(location.pathname);
-  const [modalData, setModalData] = useState({});
+  const { response: items, loading, error } = useAutoindex(location.pathname);
+
+  const [modalData, setModalData] = useState(null);
   const [modalVisibility, setModalVisibility] = useState(false);
 
+  /** @type {string} */
   const title = getConfigKey("name");
+  /** @type {SizeDate} */
   const visibilityOptions = getConfigKey("visibilityOptions");
 
   const tableClassNames = clsx(
     "border border-solid border-gray-300 divide-y divide-gray-200 rounded",
     {
       "block": !loading && !error,
-      "hidden": loading || error || (location.pathname === "/" && data.length === 0),
+      "hidden": loading || error || (location.pathname === "/" && items.length === 0),
     }
   );
 
+  /**
+   * @param {FileMetadata} file
+   * @returns {void}
+   */
   const handleMetadata = (file) => {
     setModalData(file);
     setModalVisibility(true);
-  };
-
-  const handleClose = () => {
-    setModalVisibility(false);
-    setModalData({});
   };
 
   return (
@@ -44,13 +53,19 @@ const FileList = (props) => {
       <Loading loading={loading} error={error} />
       <ul className={tableClassNames}>
         {location.pathname !== "/" &&
-          <ListItem config={visibilityOptions} back />
+          <ListItem config={visibilityOptions} back handleMetadata={handleMetadata} />
         }
-        {data.map((file, index) =>
+        {items.map((file, index) =>
           <ListItem key={index} file={file} config={visibilityOptions} handleMetadata={handleMetadata} />
         )}
       </ul>
-      <MetaModal visibility={modalVisibility} handleClose={handleClose} />
+      <MetaModal
+        file={modalData}
+        visibility={modalVisibility}
+        config={visibilityOptions}
+        handleClose={() => setModalVisibility(false)}
+        handleAfterClose={() => setModalData(null)}
+      />
     </div>
   );
 };
