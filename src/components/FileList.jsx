@@ -26,6 +26,16 @@ const FileList = (props) => {
     }
   );
 
+  const handleMetadata = (file) => {
+    setModalData(file);
+    setModalVisibility(true);
+  };
+
+  const handleClose = () => {
+    setModalVisibility(false);
+    setModalData({});
+  };
+
   return (
     <div {...props}>
       <Helmet>
@@ -37,10 +47,10 @@ const FileList = (props) => {
           <ListItem config={visibilityOptions} back />
         }
         {data.map((file, index) =>
-          <ListItem key={index} file={file} config={visibilityOptions} />
+          <ListItem key={index} file={file} config={visibilityOptions} handleMetadata={handleMetadata} />
         )}
       </ul>
-      <MetaModal visibility={modalVisibility} handleClose={() => setModalVisibility(false)} />
+      <MetaModal visibility={modalVisibility} handleClose={handleClose} />
     </div>
   );
 };

@@ -1,28 +1,35 @@
 import prettyBytes from 'pretty-bytes';
 import { DateTime } from 'luxon';
 import { get } from 'lodash';
+import { InfoIcon } from '@primer/octicons-react';
 import FileItem from './FileItem';
 import DirectoryItem from './DirectoryItem';
 import BackItem from './BackItem';
 import MetaItem from './MetaItem';
+import { SizeDateProps, FileMetadataProps } from '../proptypes';
 import PropTypes from 'prop-types';
 
 /**
  * @summary Type definitions
  * 
  * @typedef {import('../types').FileMetadata} FileMetadata
- * @typedef {import('../types').VisibilityOptions} VisibilityOptions
+ * @typedef {import('../types').SizeDate} SizeDate
+ */
+
+/**
+ * @callback HandleMetadata
+ * @param {FileMetadata} file
+ * @returns {void}
  */
 
 /**
  * @param {Object} props
  * @param {FileMetadata} props.file
- * @param {Object} props.config
+ * @param {SizeDate} props.config
  * @param {boolean} props.back
- * @param {VisibilityOptions} props.config.size
- * @param {VisibilityOptions} props.config.date
+ * @param {HandleMetadata} props.handleMetadata
  */
-const ListItem = ({ file, config, back }) => {
+const ListItem = ({ file, config, back, handleMetadata }) => {
   const { size, date } = config;
   
   const fileName = !back ? get(file, "name") : undefined;
@@ -85,8 +92,8 @@ const ListItem = ({ file, config, back }) => {
                 {humanDate}
               </MetaItem>
             </div>
-            <span className="inline sm:hidden">
-
+            <span className="inline sm:hidden cursor-pointer" onClick={() => handleMetadata(file)}>
+              <InfoIcon className="text-gray-500 hover:text-light-blue-600" />
             </span>
           </>
         }
@@ -95,24 +102,11 @@ const ListItem = ({ file, config, back }) => {
   );
 };
 
-const VisibilityOptionsPropTypes = PropTypes.shape({
-  use: PropTypes.bool.isRequired,
-  tooltip: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf(["raw", "readable", "both"]).isRequired,
-});
-
 ListItem.propTypes = {
-  file: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(["file", "directory", "other"]).isRequired,
-    mtime: PropTypes.string.isRequired,
-    size: PropTypes.number
-  }),
-  config: PropTypes.shape({
-    size: VisibilityOptionsPropTypes,
-    date: VisibilityOptionsPropTypes
-  }).isRequired,
+  file: FileMetadataProps,
+  config: SizeDateProps.isRequired,
   back: PropTypes.bool,
+  handleMetadata: PropTypes.func.isRequired,
 };
 
 export default ListItem;

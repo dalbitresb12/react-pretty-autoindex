@@ -1,13 +1,31 @@
 import { useState } from 'react';
 import ReactModal from 'react-modal';
 import clsx from 'clsx';
+import { FileMetadataProps } from '../proptypes';
 import PropTypes from 'prop-types';
 
 // Make sure to bind modal to the app element.
 // http://reactcommunity.org/react-modal/accessibility/
 ReactModal.setAppElement("#root");
 
-const MetaModal = ({ visibility, handleClose }) => {
+/**
+ * @summary Type definitions
+ * 
+ * @typedef {import('../types').FileMetadata} FileMetadata
+ */
+
+/**
+ * @callback HandleClose
+ * @returns {void}
+ */
+
+/**
+ * @param {Object} props
+ * @param {FileMetadata} props.file
+ * @param {boolean} props.visibility
+ * @param {HandleClose} props.handleClose
+ */
+const MetaModal = ({ file, visibility, handleClose }) => {
   const [open, setOpen] = useState(false);
 
   const overlayClassName = clsx(
@@ -27,23 +45,27 @@ const MetaModal = ({ visibility, handleClose }) => {
     open && "opacity-100 translate-y-0 sm:scale-100"
   );
 
-  const closeModal = () => {
+  const handleRequestClose = () => {
     setOpen(false);
     handleClose();
+  };
+
+  const handleAfterOpen = () => {
+    setOpen(true);
   };
 
   return (
     <ReactModal
       isOpen={visibility}
-      onRequestClose={closeModal}
-      onAfterOpen={() => setOpen(true)}
+      onRequestClose={handleRequestClose}
+      onAfterOpen={handleAfterOpen}
       closeTimeoutMS={200}
       overlayClassName="fixed z-10 inset-0 overflow-y-auto outline-none"
       className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 outline-none"
       bodyOpenClassName="overflow-hidden"
       htmlOpenClassName={null}
     >
-      <div className={overlayClassName} aria-hidden="true" onClick={closeModal}>
+      <div className={overlayClassName} aria-hidden="true" onClick={handleRequestClose}>
         <div className="absolute inset-0 bg-gray-500 opacity-75 outline-none" />
       </div>
 
@@ -83,6 +105,7 @@ const MetaModal = ({ visibility, handleClose }) => {
 };
 
 MetaModal.propTypes = {
+  file: FileMetadataProps,
   visibility: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
