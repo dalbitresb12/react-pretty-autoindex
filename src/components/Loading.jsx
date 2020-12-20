@@ -2,6 +2,11 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { AlertIcon } from '@primer/octicons-react';
 
+/**
+ * @param {Object} props
+ * @param {boolean} props.loading
+ * @param {unknown} props.error
+ */
 const Loading = ({ loading, error }) => {
   const classNames = clsx(
     "fixed inset-0 z-30",
