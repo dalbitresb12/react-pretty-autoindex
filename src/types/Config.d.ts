@@ -4,13 +4,15 @@ export interface VisibilityOptions {
   type: "raw" | "readable" | "both",
 }
 
+export interface SizeDate {
+  size: VisibilityOptions,
+  date: VisibilityOptions,
+}
+
 export interface Config {
   name: string,
   basePath: string,
   address: string,
   withCredentials: boolean,
-  visibilityOptions: {
-    size: VisibilityOptions,
-    date: VisibilityOptions,
-  },
+  visibilityOptions: SizeDate,
 }

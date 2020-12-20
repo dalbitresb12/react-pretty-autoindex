@@ -1,8 +1,9 @@
-import { Config, VisibilityOptions } from './Config';
+import { VisibilityOptions, SizeDate, Config } from './Config';
 import { FileMetadata } from './FileMetadata';
 
 export {
-  Config,
+  FileMetadata,
   VisibilityOptions,
-  FileMetadata
+  SizeDate,
+  Config,
 };
