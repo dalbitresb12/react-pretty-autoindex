@@ -35,8 +35,8 @@ const ListItem = ({ file, config, back, handleMetadata }) => {
   const fileName = !back ? get(file, "name") : undefined;
   const type = !back ? get(file, "type") : undefined;
   
-  const fileSize = (!back && size.use) ? get(file, "size", 0) : undefined;
-  const fileDate = (!back && date.use) ? get(file, "mtime") : undefined;
+  const fileSize = (!back && size.use) ? get(file, "size", 0) : 0;
+  const fileDate = (!back && date.use) ? get(file, "mtime", "") : "";
 
   const humanSize = (!back && size.type !== "raw")
     ? prettyBytes(fileSize)
