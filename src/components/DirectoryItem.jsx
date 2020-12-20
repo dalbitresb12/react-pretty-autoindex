@@ -22,3 +22,6 @@ DirectoryItem.propTypes = {
 };
 
 export default DirectoryItem;
+export {
+  FileDirectoryFillIcon as Icon
+};

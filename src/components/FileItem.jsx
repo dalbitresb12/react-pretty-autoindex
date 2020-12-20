@@ -22,3 +22,6 @@ FileItem.propTypes = {
 };
 
 export default FileItem;
+export {
+  FileIcon as Icon
+};
