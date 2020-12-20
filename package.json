@@ -1,6 +1,17 @@
 {
   "name": "react-pretty-autoindex",
+  "description": "Shows the nginx autoindex more pretty.",
   "version": "0.1.0",
+  "homepage": "https://github.com/dalbitresb12/react-pretty-autoindex#readme",
+  "author": {
+    "name": "Diego Albitres",
+    "email": "diego.albitres@gmail.com",
+    "url": "https://dalbitresb.me"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dalbitresb12/react-pretty-autoindex/issues"
+  },
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.0.0",
@@ -51,7 +62,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": ".",
   "devDependencies": {
     "prop-types": "^15.7.2"
   }

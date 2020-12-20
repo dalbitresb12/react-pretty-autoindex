@@ -4,6 +4,12 @@
 
 /* Boilerplate */
 
+html,
+body,
+#root {
+  @apply h-full m-0;
+}
+
 html {
   font-feature-settings: 'liga' 1;
 
