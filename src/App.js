@@ -13,7 +13,7 @@ const App = () => {
       <Router basename={basePath}>
         <div className="relative min-h-full mx-4 lg:max-w-5xl lg:mx-auto text-xs lg:text-sm">
           <div className="pb-20">
-            <Breadcrumb className="py-4" />
+            <Breadcrumb className="pt-4 mb-4" />
             <FileList />
           </div>
           <Footer className="absolute bottom-0 w-full h-20" />
