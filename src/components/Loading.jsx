@@ -43,6 +43,22 @@ const Loading = ({ loading, error, validating }) => {
           {validating && "Retrying..."}
         </span>
       </div>
+      {error && !validating &&
+        <div className="mt-4 mx-4 lg:max-w-5xl lg:mx-auto z-50 space-y-2 flex flex-wrap">
+          <p className="w-full text-sm text-gray-400 z-50">
+            The app might automatically retry loading the content in 5 seconds.
+          </p>
+          <p className="w-full text-sm text-gray-400 z-50">
+            If nothing happens, the server might be down or the max retry count could have been reached.
+          </p>
+          <p className="w-full text-sm text-gray-400 z-50">
+            You can always try and reload the page or press the back button on your browser.
+          </p>
+          <p className="w-full text-sm text-gray-400 z-50">
+            For the record, the max retry count is 3.
+          </p>
+        </div>
+      }
     </div>
   );
 };
