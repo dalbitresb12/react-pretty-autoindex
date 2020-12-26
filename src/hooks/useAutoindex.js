@@ -1,35 +1,35 @@
-import { useState, useEffect } from 'react';
-import { getDirectoryContents } from '../utils';
+import useSWR from 'swr';
+import { getConfigKey } from '../utils';
 
 const useAutoindex = (path) => {
-  const [response, setResponse] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const address = getConfigKey("address");
+  const withCredentials = getConfigKey("withCredentials");
 
-  const handleResponse = (res) => {
-    setResponse(res);
-    setLoading(false);
-    setError(false);
+  const fetcher = async (path) => {
+    return fetch(`${address}${path}`, {
+      method: "GET",
+      mode: "cors",
+      credentials: withCredentials ? "include" : "same-origin",
+      redirect: "follow",
+      referrerPolicy: "strict-origin-when-cross-origin"
+    }).then(res => res.json());
   };
 
-  const handleError = (err) => {
-    setResponse([]);
-    setLoading(false);
-    setError(err);
-  };
-
-  useEffect(() => {
-    setLoading(true);
-
-    getDirectoryContents(path)
-      .then(handleResponse)
-      .catch(handleError);
-  }, [path]);
+  const { data, error, isValidating } = useSWR(path, fetcher, {
+    initialData: [],
+    revalidateOnMount: true,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true,
+    shouldRetryOnError: true,
+    errorRetryInterval: 5000,
+    errorRetryCount: 3,
+  });
 
   return {
-    response,
-    loading,
-    error
+    data,
+    loading: !error && !data,
+    error,
+    validating: isValidating,
   };
 };
 

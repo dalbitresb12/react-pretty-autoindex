@@ -18,7 +18,7 @@ import path from 'path';
 
 const FileList = (props) => {
   const location = useLocation();
-  const { response: items, loading, error } = useAutoindex(location.pathname);
+  const { data: items, loading, error, validating } = useAutoindex(location.pathname);
 
   const [modalData, setModalData] = useState(null);
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -31,8 +31,8 @@ const FileList = (props) => {
   const tableClassNames = clsx(
     "border border-solid border-gray-300 divide-y divide-gray-200 rounded",
     {
-      "block": !loading && !error,
-      "hidden": loading || error || (location.pathname === "/" && items.length === 0),
+      "block": !loading && !error && !validating,
+      "hidden": loading || error || validating || (location.pathname === "/" && items.length === 0),
     }
   );
 
@@ -50,15 +50,17 @@ const FileList = (props) => {
       <Helmet>
         <title>Index of {path.join("/", title, location.pathname)}</title>
       </Helmet>
-      <Loading loading={loading} error={error} />
-      <ul className={tableClassNames}>
-        {location.pathname !== "/" &&
-          <ListItem config={visibilityOptions} back handleMetadata={handleMetadata} />
-        }
-        {items.map((file, index) =>
-          <ListItem key={index} file={file} config={visibilityOptions} handleMetadata={handleMetadata} />
-        )}
-      </ul>
+      <Loading loading={loading} error={error} validating={validating} />
+      {!loading && !error && !validating && items &&
+        <ul className={tableClassNames}>
+          {location.pathname !== "/" &&
+            <ListItem config={visibilityOptions} back handleMetadata={handleMetadata} />
+          }
+          {items.map((file, index) =>
+            <ListItem key={index} file={file} config={visibilityOptions} handleMetadata={handleMetadata} />
+          )}
+        </ul>
+      }
       <MetaModal
         file={modalData}
         visibility={modalVisibility}

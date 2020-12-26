@@ -6,8 +6,9 @@ import { AlertIcon } from '@primer/octicons-react';
  * @param {Object} props
  * @param {boolean} props.loading
  * @param {unknown} props.error
+ * @param {boolean} props.validating
  */
-const Loading = ({ loading, error }) => {
+const Loading = ({ loading, error, validating }) => {
   const classNames = clsx(
     "fixed inset-0 z-30",
     {
@@ -26,7 +27,7 @@ const Loading = ({ loading, error }) => {
     <div className={classNames}>
       <div className="fixed inset-0 bg-white opacity-50 z-40" />
       <div className="mt-10 mx-4 lg:max-w-5xl lg:mx-auto z-50 space-x-3 flex">
-        {error
+        {error && !validating
           ? (
             <AlertIcon className="text-gray-600 z-50 h-6 w-6" />
           )
@@ -38,7 +39,8 @@ const Loading = ({ loading, error }) => {
           )
         }
         <span className={textClassName}>
-          {error && "There was an error loading the content."}
+          {error && !validating && "There was an error loading the content."}
+          {validating && "Retrying..."}
         </span>
       </div>
     </div>
@@ -47,7 +49,8 @@ const Loading = ({ loading, error }) => {
 
 Loading.propTypes = {
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.any
+  error: PropTypes.any,
+  validating: PropTypes.bool.isRequired,
 };
 
 export default Loading;

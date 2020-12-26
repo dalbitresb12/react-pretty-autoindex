@@ -1,9 +1,10 @@
 import { FileMetadata } from '../types';
 
 export interface UseAutoindexReturnType {
-  response: FileMetadata[],
+  data: FileMetadata[],
   loading: boolean,
-  error: unknown
+  error: unknown,
+  validating: boolean,
 }
 
 declare function useAutoindex(path: string): UseAutoindexReturnType;
